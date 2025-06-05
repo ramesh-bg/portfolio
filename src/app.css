@@ -2,6 +2,7 @@
 @plugin '@tailwindcss/forms';
 @plugin '@tailwindcss/typography';
 
+/* global.css or inside a <style global> block */
 * {
 	font-family: 'Montserrat', sans-serif;
 	font-optical-sizing: auto;
@@ -10,4 +11,6 @@
 
 .layout-bg {
 	background: linear-gradient(to right, #000000, #0f172a, #000000);
+	color: white; /* set text white here globally inside layout-bg */
+	min-height: 100vh; /* full viewport height minimum */
 }

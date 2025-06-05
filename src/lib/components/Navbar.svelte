@@ -3,7 +3,6 @@
 	import { gsap } from 'gsap';
 
 	onMount(() => {
-		// Animate Ramesh BG on enter
 		gsap.from('.ramesh-text', {
 			duration: 0.6,
 			opacity: 0,
@@ -11,7 +10,6 @@
 			ease: 'power3.out'
 		});
 
-		// Select all links with underline-link class
 		const links = document.querySelectorAll('.underline-link');
 
 		links.forEach((link) => {
@@ -36,35 +34,65 @@
 	});
 </script>
 
-<nav
-	class="m-5 grid min-h-[72px] grid-cols-2 items-center-safe justify-between border-b border-amber-50"
->
-	<a class="ramesh-text text-3xl font-semibold" href="javascript.void(0)">
-		{'{ '}Ramesh BG{' }'}
-	</a>
-	<div class="flex justify-end space-x-8">
-		<a href="javascript.void(0)" class="underline-link">
-			About
-			<div class="underline"></div>
-		</a>
+<nav class="border-b-[0.1px] border-amber-50 p-4">
+	<div
+		class="mx-auto flex min-h-[72px] max-w-full items-center justify-between px-4 sm:px-6 lg:px-8"
+	>
+		<button
+			class="ramesh-text min-w-[150px] truncate
+				text-left text-base leading-tight font-semibold sm:text-lg
+				md:text-xl lg:text-2xl xl:text-3xl"
+			aria-label="Ramesh BG"
+		>
+			{'{ '}Ramesh BG{' }'}
+		</button>
 
-		<a href="javascript.void(0)" class="underline-link">
-			Experience
-			<div class="underline"></div>
-		</a>
-
-		<a href="javascript.void(0)" class="underline-link">
-			Projects
-			<div class="underline"></div>
-		</a>
+		<ul class="hidden space-x-6 sm:flex md:space-x-8 lg:space-x-10">
+			<li>
+				<a
+					class="underline-link relative inline-block py-3
+						text-sm leading-snug font-medium sm:text-base
+						md:text-lg lg:text-xl"
+					href="/portfolio"
+					tabindex="0"
+				>
+					About
+					<div class="underline"></div>
+				</a>
+			</li>
+			<li>
+				<a
+					class="underline-link relative inline-block py-3
+						text-sm leading-snug font-medium sm:text-base
+						md:text-lg lg:text-xl"
+					href="/portfolio"
+					tabindex="0"
+				>
+					Experience
+					<div class="underline"></div>
+				</a>
+			</li>
+			<li>
+				<a
+					class="underline-link relative inline-block py-3
+						text-sm leading-snug font-medium sm:text-base
+						md:text-lg lg:text-xl"
+					href="/portfolio"
+					tabindex="0"
+				>
+					Projects
+					<div class="underline"></div>
+				</a>
+			</li>
+		</ul>
 	</div>
 </nav>
 
 <style>
 	a {
-		position: relative;
-		text-decoration: none;
 		color: inherit;
+		text-decoration: none;
+		position: relative;
 	}
 
 	.underline {
@@ -72,7 +100,13 @@
 		bottom: 0;
 		left: 0;
 		height: 2px;
-		width: 0%;
+		width: 0;
 		background-color: currentColor;
+		transition: width 0.3s ease;
+	}
+
+	.underline-link:hover .underline,
+	.underline-link:focus .underline {
+		width: 100%;
 	}
 </style>
