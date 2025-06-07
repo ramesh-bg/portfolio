@@ -1,8 +1,12 @@
 <script>
+	// @ts-nocheck
+
 	import { onMount } from 'svelte';
 	import { gsap } from 'gsap';
 	import { sectionColor } from '../../stores/common';
 	let isOpen = false;
+
+	const NAVBAR_HEIGHT = 90; // adjust to your navbar's actual height in px
 
 	onMount(() => {
 		gsap.from('.ramesh-text', {
@@ -34,6 +38,28 @@
 			});
 		});
 	});
+
+	function handleScrollWithOffset(event) {
+		const href = event.currentTarget.getAttribute('href');
+
+		if (href && href.startsWith('#')) {
+			event.preventDefault();
+
+			const id = href.slice(1);
+			const target = document.getElementById(id);
+			if (target) {
+				const topPos = target.getBoundingClientRect().top + window.pageYOffset - NAVBAR_HEIGHT;
+
+				window.scrollTo({
+					top: topPos,
+					behavior: 'smooth'
+				});
+
+				// Close mobile menu if open
+				isOpen = false;
+			}
+		}
+	}
 </script>
 
 <nav
@@ -41,20 +67,23 @@
 >
 	<div class="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 sm:px-6 lg:px-8">
 		<!-- Brand -->
-		<div
-			class="ramesh-text text-xl font-bold tracking-wide sm:text-2xl md:text-3xl {$sectionColor ||
+		<a
+			href="#about"
+			class="ramesh-text block text-xl font-bold tracking-wide sm:text-2xl md:text-3xl {$sectionColor ||
 				'text-teal-400'}"
+			on:click={handleScrollWithOffset}
 		>
-			<span class={$sectionColor}>{`{ `}</span>Ramesh BG<span>{` }`}</span>
-		</div>
+			<span>{`{ `}</span>Ramesh BG<span>{` }`}</span>
+		</a>
 
 		<!-- Desktop Nav -->
 		<ul class="hidden space-x-8 font-medium text-slate-200 sm:flex">
-			{#each ['About', 'Experience', 'Projects'] as item}
+			{#each ['about', 'experience', 'projects', 'certifications', 'academics'] as item}
 				<li>
 					<a
 						href={`#${item.toLowerCase()}`}
-						class="underline-link relative inline-block transition duration-300 hover:text-teal-400"
+						class="underline-link relative inline-block capitalize transition duration-300 hover:text-teal-400"
+						on:click={handleScrollWithOffset}
 					>
 						{item}
 						<div class="underline"></div>
@@ -82,12 +111,12 @@
 	<!-- Mobile Nav -->
 	{#if isOpen}
 		<ul class="flex flex-col items-start space-y-3 px-6 pb-4 font-medium text-slate-200 sm:hidden">
-			{#each ['About', 'Experience', 'Projects'] as item}
+			{#each ['about', 'experience', 'projects', 'certifications', 'academics'] as item}
 				<li>
 					<a
 						href={`#${item.toLowerCase()}`}
-						class="transition duration-300 hover:text-teal-400"
-						on:click={() => (isOpen = false)}
+						class="capitalize transition duration-300 hover:text-teal-400"
+						on:click={handleScrollWithOffset}
 					>
 						{item}
 					</a>

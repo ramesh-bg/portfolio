@@ -85,7 +85,7 @@
 </svelte:head>
 
 <section
-	id="intro"
+	id="about"
 	class="bg-gradient-to-b from-slate-900 via-slate-950 to-black px-4 py-20 text-slate-100 sm:px-10"
 >
 	<div
@@ -94,7 +94,7 @@
 		<!-- Left Text -->
 		<div class="max-w-lg space-y-8 text-center sm:text-left">
 			<h1
-				class="text-4xl font-bold tracking-tight text-white sm:text-5xl"
+				class="text-2xl font-bold tracking-tight text-white sm:text-5xl"
 				bind:this={container}
 				id="nameContent"
 			>
@@ -109,18 +109,23 @@
 			<div class="space-y-4 text-sm text-slate-300">
 				<div class="contact-item flex items-center gap-3">
 					<i data-lucide="mail" class="h-5 w-5 text-teal-400"></i>
-					<a href="mailto:ramesh@example.com" class="transition hover:text-teal-300"
-						>ramesh@example.com</a
+					<a href="mailto:rameshbg11@gmail.com" class="transition hover:text-teal-300"
+						>rameshbg11@gmail.com</a
 					>
 				</div>
 
 				<div class="contact-item flex items-center gap-3">
 					<i data-lucide="linkedin" class="h-5 w-5 text-teal-400"></i>
 					<a
-						href="https://linkedin.com/in/yourprofile"
+						href="https://www.linkedin.com/in/rameshbg/"
 						target="_blank"
 						class="transition hover:text-teal-300">LinkedIn</a
 					>
+				</div>
+
+				<div class="contact-item flex items-center gap-3">
+					<i data-lucide="phone" class="h-5 w-5 text-teal-400"></i>
+					<a href="tel:+917829112957" class="transition hover:text-teal-300">+91 7829112957</a>
 				</div>
 
 				<!-- Resume Button -->

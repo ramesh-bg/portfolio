@@ -13,5 +13,5 @@ export const colorMap: any = {
 
 export const sectionColor = derived(
 	currentSection,
-	($section) => colorMap[$section] || 'text-white'
+	($section) => colorMap[$section] || 'text-teal-400'
 );
