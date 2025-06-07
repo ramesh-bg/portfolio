@@ -1,6 +1,8 @@
 <script>
 	import { onMount } from 'svelte';
 	import { gsap } from 'gsap';
+	import { sectionColor } from '../../stores/common';
+	let isOpen = false;
 
 	onMount(() => {
 		gsap.from('.ramesh-text', {
@@ -34,70 +36,71 @@
 	});
 </script>
 
-<nav class="border-b-[0.1px] border-amber-50 p-4">
-	<div
-		class="mx-auto flex min-h-[72px] max-w-full items-center justify-between px-4 sm:px-6 lg:px-8"
-	>
-		<button
-			class="ramesh-text min-w-[150px] truncate
-				text-left text-base leading-tight font-semibold sm:text-lg
-				md:text-xl lg:text-2xl xl:text-3xl"
-			aria-label="Ramesh BG"
+<nav
+	class="sticky top-0 z-50 w-full border-b border-slate-800 bg-gradient-to-r from-slate-900/70 via-black/70 to-slate-900/70 shadow-md backdrop-blur-sm"
+>
+	<div class="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 sm:px-6 lg:px-8">
+		<!-- Brand -->
+		<div
+			class="ramesh-text text-xl font-bold tracking-wide sm:text-2xl md:text-3xl {$sectionColor ||
+				'text-teal-400'}"
 		>
-			{'{ '}Ramesh BG{' }'}
-		</button>
+			<span class={$sectionColor}>{`{ `}</span>Ramesh BG<span>{` }`}</span>
+		</div>
 
-		<ul class="hidden space-x-6 sm:flex md:space-x-8 lg:space-x-10">
-			<li>
-				<a
-					class="underline-link relative inline-block py-3
-						text-sm leading-snug font-medium sm:text-base
-						md:text-lg lg:text-xl"
-					href="/portfolio"
-					tabindex="0"
-				>
-					About
-					<div class="underline"></div>
-				</a>
-			</li>
-			<li>
-				<a
-					class="underline-link relative inline-block py-3
-						text-sm leading-snug font-medium sm:text-base
-						md:text-lg lg:text-xl"
-					href="/portfolio"
-					tabindex="0"
-				>
-					Experience
-					<div class="underline"></div>
-				</a>
-			</li>
-			<li>
-				<a
-					class="underline-link relative inline-block py-3
-						text-sm leading-snug font-medium sm:text-base
-						md:text-lg lg:text-xl"
-					href="/portfolio"
-					tabindex="0"
-				>
-					Projects
-					<div class="underline"></div>
-				</a>
-			</li>
+		<!-- Desktop Nav -->
+		<ul class="hidden space-x-8 font-medium text-slate-200 sm:flex">
+			{#each ['About', 'Experience', 'Projects'] as item}
+				<li>
+					<a
+						href={`#${item.toLowerCase()}`}
+						class="underline-link relative inline-block transition duration-300 hover:text-teal-400"
+					>
+						{item}
+						<div class="underline"></div>
+					</a>
+				</li>
+			{/each}
 		</ul>
+
+		<!-- Hamburger -->
+		<button
+			class="text-slate-300 focus:outline-none sm:hidden"
+			on:click={() => (isOpen = !isOpen)}
+			aria-label="Toggle menu"
+		>
+			<svg class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+				<path
+					stroke-linecap="round"
+					stroke-linejoin="round"
+					d={isOpen ? 'M6 18L18 6M6 6l12 12' : 'M4 6h16M4 12h16M4 18h16'}
+				/>
+			</svg>
+		</button>
 	</div>
+
+	<!-- Mobile Nav -->
+	{#if isOpen}
+		<ul class="flex flex-col items-start space-y-3 px-6 pb-4 font-medium text-slate-200 sm:hidden">
+			{#each ['About', 'Experience', 'Projects'] as item}
+				<li>
+					<a
+						href={`#${item.toLowerCase()}`}
+						class="transition duration-300 hover:text-teal-400"
+						on:click={() => (isOpen = false)}
+					>
+						{item}
+					</a>
+				</li>
+			{/each}
+		</ul>
+	{/if}
 </nav>
 
 <style>
-	a {
-		color: inherit;
-		text-decoration: none;
-		position: relative;
-	}
-
 	.underline {
 		position: absolute;
-		bottom: 0;
+		bottom: -2px;
 		left: 0;
 		height: 2px;
 		width: 0;
@@ -105,8 +108,8 @@
 		transition: width 0.3s ease;
 	}
 
-	.underline-link:hover .underline,
-	.underline-link:focus .underline {
+	a.underline-link:hover .underline,
+	a.underline-link:focus .underline {
 		width: 100%;
 	}
 </style>

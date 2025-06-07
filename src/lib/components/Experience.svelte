@@ -1,4 +1,6 @@
 <script>
+	import { onMount } from 'svelte';
+
 	export let experiences = [
 		{
 			period: '2018 — 2019',
@@ -30,119 +32,99 @@
 				url: 'https://upstatement.com'
 			},
 			description:
-				'Build, style, and ship high-quality websites, design systems, mobile apps, and digital experiences for clients including Harvard Business School, Everytown for Gun Safety, Pratt Institute, and more. Lead engineering initiatives through collaboration and development of internal tools.',
+				'Built and delivered scalable web and mobile experiences, focusing on performance and accessibility. Led dev teams and mentored junior developers.',
 			technologies: [
 				'JavaScript',
 				'TypeScript',
 				'HTML & SCSS',
 				'React',
 				'Next.js',
-				'React Native',
-				'WordPress',
-				'Contentful',
-				'Node.js',
-				'PHP'
-			]
-		},
-		{
-			period: '2014 — 2015',
-			roles: ['Lead Engineer', 'Senior Engineer', 'Engineer'],
-			company: {
-				name: 'Upstatement',
-				url: 'https://upstatement.com'
-			},
-			description:
-				'Build, style, and ship high-quality websites, design systems, mobile apps, and digital experiences for clients including Harvard Business School, Everytown for Gun Safety, Pratt Institute, and more. Lead engineering initiatives through collaboration and development of internal tools.',
-			technologies: [
-				'JavaScript',
-				'TypeScript',
-				'HTML & SCSS',
-				'React',
-				'Next.js',
-				'React Native',
-				'WordPress',
-				'Contentful',
 				'Node.js',
 				'PHP'
 			]
 		}
-
-		// Add more experience objects here as needed
 	];
+
+	onMount(async () => {
+		const { gsap } = await import('gsap');
+		const { ScrollTrigger } = await import('gsap/ScrollTrigger');
+		gsap.registerPlugin(ScrollTrigger);
+
+		gsap.utils.toArray('.exp-card').forEach((el) => {
+			gsap.from(el, {
+				opacity: 0,
+				y: 50,
+				duration: 0.8,
+				ease: 'power2.out',
+				scrollTrigger: {
+					trigger: el,
+					start: 'top 85%',
+					toggleActions: 'play none none none'
+				}
+			});
+		});
+	});
 </script>
 
-<div class="grid grid-cols-4">
-	<div class="self-center">
-		<button class="text-4xl font-semibold underline">EXPERIENCE</button>
-	</div>
+<!-- Experience Section -->
+<section class="px-4 py-6 sm:px-6 lg:px-8" id="experience">
+	<div class="mx-auto grid max-w-full grid-cols-1 gap-8 lg:grid-cols-4">
+		<!-- Left: Title -->
+		<div class="lg:col-span-2">
+			<h2
+				class="text-2xl font-bold text-slate-100 underline decoration-teal-400 decoration-4 underline-offset-8"
+			>
+				EXPERIENCE
+			</h2>
+		</div>
 
-	<div class="col-span-3">
-		<!-- Wrapping div to prevent overflow -->
-		<div class="grid gap-y-6 overflow-x-hidden px-4">
+		<!-- Right: Experience Items -->
+		<div class="space-y-12 lg:col-span-3">
 			{#each experiences as exp (exp.period)}
 				<div
-					class="group relative grid max-w-full p-6 pb-1 transition-all sm:grid-cols-8 sm:gap-8 md:gap-4 lg:group-hover/list:opacity-50 lg:hover:!opacity-100"
+					class="exp-card rounded-xl bg-slate-800/30 p-6 shadow-lg transition-shadow duration-300 hover:shadow-teal-500/30"
 				>
-					<!-- Overlay div with no negative inset -->
-					<div
-						class="absolute inset-0 z-0 hidden rounded-md transition motion-reduce:transition-none lg:block lg:group-hover:bg-slate-800/50 lg:group-hover:shadow-[inset_0_1px_0_0_rgba(148,163,184,0.1)] lg:group-hover:drop-shadow-lg"
-						aria-hidden="true"
-					></div>
-
-					<header
-						class="z-10 mt-1 mb-2 text-xs font-semibold tracking-wide text-slate-500 uppercase sm:col-span-2"
-						aria-label={exp.period}
-					>
+					<!-- Period -->
+					<header class="mb-2 text-xs font-semibold tracking-wider text-teal-400 uppercase">
 						{exp.period}
 					</header>
 
-					<div class="z-10 sm:col-span-6">
-						<h3 class="leading-snug font-medium text-slate-200">
-							<a
-								class="group/link inline-flex items-baseline text-base leading-tight font-medium text-slate-200 hover:text-teal-300 focus-visible:text-teal-300"
-								href={exp.company.url}
-								target="_blank"
-								rel="noreferrer noopener"
-								aria-label={`Lead Engineer at ${exp.company.name} (opens in a new tab)`}
-							>
-								{exp.roles[0]} &middot; {exp.company.name}
-								<svg
-									xmlns="http://www.w3.org/2000/svg"
-									viewBox="0 0 20 20"
-									fill="currentColor"
-									class="ml-1 inline-block h-4 w-4 shrink-0 translate-y-px transition-transform group-hover/link:translate-x-1 group-hover/link:-translate-y-1 group-focus-visible/link:translate-x-1 group-focus-visible/link:-translate-y-1 motion-reduce:transition-none"
-									aria-hidden="true"
-								>
-									<path
-										fill-rule="evenodd"
-										d="M5.22 14.78a.75.75 0 001.06 0l7.22-7.22v5.69a.75.75 0 001.5 0v-7.5a.75.75 0 00-.75-.75h-7.5a.75.75 0 000 1.5h5.69l-7.22 7.22a.75.75 0 000 1.06z"
-										clip-rule="evenodd"
-									></path>
-								</svg>
-							</a>
-						</h3>
+					<!-- Title and Company -->
+					<h3 class="mb-1 text-xl font-semibold text-slate-100">
+						<a
+							href={exp.company.url}
+							target="_blank"
+							rel="noreferrer noopener"
+							class="transition-colors duration-200 hover:text-teal-300"
+						>
+							{exp.roles[0]} @ {exp.company.name}
+						</a>
+					</h3>
 
-						<div class="mt-1 space-y-1 text-sm text-slate-500">
-							{#each exp.roles.slice(1) as role}
-								<div>{role}</div>
-							{/each}
-						</div>
-
-						<p class="mt-2 text-sm leading-normal text-slate-300">{exp.description}</p>
-
-						<ul class="my-4 flex flex-wrap gap-2" aria-label="Technologies used">
-							{#each exp.technologies as tech}
-								<li>
-									<span
-										class="rounded-full bg-teal-400/10 px-3 py-1 text-xs font-medium text-teal-300"
-										>{tech}</span
-									>
-								</li>
-							{/each}
-						</ul>
+					<!-- Other Roles -->
+					<div class="mb-3 space-y-1 text-sm text-slate-400">
+						{#each exp.roles.slice(1) as role}
+							<div>• {role}</div>
+						{/each}
 					</div>
+
+					<!-- Description -->
+					<p class="mb-4 text-sm leading-relaxed text-slate-300">{exp.description}</p>
+
+					<!-- Tech Stack -->
+					<ul class="flex flex-wrap gap-2">
+						{#each exp.technologies as tech}
+							<li>
+								<span
+									class="rounded-full border border-teal-500/20 bg-teal-600/10 px-3 py-1 text-xs font-medium text-teal-300"
+								>
+									{tech}
+								</span>
+							</li>
+						{/each}
+					</ul>
 				</div>
 			{/each}
 		</div>
 	</div>
-</div>
+</section>

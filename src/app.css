@@ -2,6 +2,10 @@
 @plugin '@tailwindcss/forms';
 @plugin '@tailwindcss/typography';
 
+html {
+	scroll-behavior: smooth;
+}
+
 /* global.css or inside a <style global> block */
 * {
 	font-family: 'Montserrat', sans-serif;
