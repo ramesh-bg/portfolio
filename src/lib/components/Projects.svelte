@@ -1,25 +1,84 @@
 <script>
 	export let projects = [
 		{
-			name: 'NeoBank App',
-			url: 'https://neobank.app',
-			domains: ['Banking', 'FinTech'],
-			description: 'A modern banking web app with real-time fund transfers and spending analytics.',
-			technologies: ['React', 'Node.js', 'MongoDB', 'Tailwind CSS']
+			name: 'OpenMoney',
+			url: 'https://app.open.money',
+			domains: ['FinTech', 'Invoicing', 'Billing', 'GST Filing', 'Payments'],
+			description:
+				'A comprehensive fintech product featuring invoicing, billing, GST filing, payment links, payouts, and integrations.',
+			technologies: [
+				'Angular 19',
+				'TypeScript',
+				'TailwindCSS',
+				'Svelte',
+				'NX Monorepo',
+				'Angular Material',
+				'RxJS',
+				'd3.js'
+			]
 		},
 		{
-			name: 'InvoicePro',
-			url: 'https://invoicepro.com',
-			domains: ['Accounting', 'Finance'],
-			description: 'Invoice generator and tax calculator for freelancers and small businesses.',
-			technologies: ['Vue.js', 'Firebase', 'Bootstrap']
+			name: 'OpenCapital',
+			url: 'https://app.opencapital.co.in',
+			domains: ['Lending', 'Loans', 'FinTech'],
+			description:
+				'Lending product offering business and personal loans with seamless UI and loan management.',
+			technologies: [
+				'Angular',
+				'TypeScript',
+				'TailwindCSS',
+				'Svelte',
+				'NX Monorepo',
+				'Angular Material'
+			]
 		},
 		{
-			name: 'Fund Transfer Gateway',
-			url: 'https://fundtransfer.io',
-			domains: ['Fund Transfer', 'Payments'],
-			description: 'Secure and fast UPI-based payment gateway with transaction history and alerts.',
-			technologies: ['Angular', 'Express', 'PostgreSQL']
+			name: 'Static Websites for OpenCapital & OpenMoney',
+			url: 'https://open.money',
+			domains: ['Web', 'SEO', 'Localization'],
+			description:
+				'Static websites built with Next.js focused on localization and SEO to enhance product visibility.',
+			technologies: ['Sveltekit', 'SEO']
+		},
+		{
+			name: 'Bankonnect & Yes Bank White-label Products',
+			url: 'https://app.bankonnect.co',
+			domains: ['Banking', 'White-label Solutions'],
+			description:
+				'White-label fintech products for ICICI Bank and Yes Bank incorporating core OpenMoney fintech modules.',
+			technologies: ['Angular 13', 'RxJS', 'TailwindCSS', 'SCSS', 'Nx']
+		},
+		{
+			name: 'Document Managentme System (DMS)',
+			url: 'https://www.ingredion.com',
+			domains: ['Document Management', 'RBAC', 'Enterprise'],
+			description:
+				'RBAC-based document management system featuring storage, retrieval, access control, approval workflows, versioning, and advanced search.',
+			technologies: ['Angular', 'Angular Material', 'RxJS', 'Node-RED', 'MongoDB']
+		},
+		{
+			name: 'Aviva Affinity SRM',
+			url: 'https://www.avivaindia.com',
+			domains: ['Insurance', 'Lead Management', 'iOS App'],
+			description:
+				'iOS iPad app for managing leads, cases, and policies with RBAC for approvals, built with Cordova and Angular.',
+			technologies: ['Angular', 'Angular Material', 'RxJS', 'Node-RED', 'Cordova', 'NodeJS']
+		},
+		{
+			name: 'Apollo Insurance Sales App',
+			url: 'https://tihsa.co.za',
+			domains: ['Insurance', 'Sales', 'Web Application'],
+			description:
+				'Web application for vehicle and mortgage insurance sales with automated builds and branding, developed in an Agile environment.',
+			technologies: ['Angular 8', 'Angular Material', 'RxJS', 'Node-RED', 'MongoDB']
+		},
+		{
+			name: 'Quality Trace & Track (QTT)',
+			url: 'https://www.ingredion.com',
+			domains: ['Agriculture', 'Lab Testing', 'Sample Tracking'],
+			description:
+				'Product for plant and agro lab users to submit samples for testing and track tests with simplified micro manifest reading.',
+			technologies: ['Angular', 'Angular Material', 'RxJS', 'Node-RED', 'MongoDB']
 		}
 	];
 </script>

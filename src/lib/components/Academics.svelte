@@ -1,21 +1,21 @@
 <script>
 	import { onMount } from 'svelte';
-
 	export let academics = [
 		{
-			institution: 'Indian Institute of Technology, Delhi',
-			degree: 'B.Tech in Computer Science',
-			period: '2014 — 2018',
+			institution: 'Jain College of Engineering, Belagavi',
+			degree: 'Bachelor of Engineering in Computer Science',
+			period: 'July 2013 — May 2017',
 			description:
-				'Focused on software engineering, algorithms, and system design. Completed major projects in AI and Web Development.',
-			courses: ['Data Structures', 'Operating Systems', 'Computer Networks', 'Machine Learning']
+				'Focused on core computer science concepts, software development, and engineering fundamentals. Participated in technical events and academic projects.',
+			courses: ['Data Structures', 'Algorithms', 'Operating Systems', 'Web Development']
 		},
 		{
-			institution: 'Kendriya Vidyalaya',
-			degree: 'Class XII - CBSE',
-			period: '2012 — 2014',
-			description: 'Completed Higher Secondary with specialization in Science and Mathematics.',
-			courses: ['Physics', 'Chemistry', 'Mathematics', 'English']
+			institution: 'JSS College, Dharwad',
+			degree: 'Pre-University',
+			period: 'July 2011 — June 2013',
+			description:
+				'Specialized in Physics, Chemistry, Mathematics, and Computer Science (PCMCS). Built a strong foundation in analytical thinking, problem-solving, and basic programming concepts.',
+			courses: ['Physics', 'Chemistry', 'Mathematics', 'Computer Science']
 		}
 	];
 

@@ -3,31 +3,13 @@
 
 	export let certifications = [
 		{
-			title: 'Frontend Developer Certification',
-			issuer: 'FreeCodeCamp',
-			url: 'https://www.freecodecamp.org/certification',
+			title: 'Elements of AI',
+			issuer: 'University of Helsinki & Reaktor',
+			url: '/portfolio/certificate-elements-of-ai.png',
 			description:
-				'Completed comprehensive frontend developer course covering HTML, CSS, JavaScript, and React.',
-			technologies: ['HTML', 'CSS', 'JavaScript', 'React'],
-			date: '2023'
-		},
-		{
-			title: 'JavaScript Algorithms and Data Structures',
-			issuer: 'FreeCodeCamp',
-			url: 'https://www.freecodecamp.org/certification',
-			description:
-				'Mastered algorithms and data structures fundamentals using JavaScript with real coding challenges.',
-			technologies: ['JavaScript', 'Algorithms', 'Data Structures'],
-			date: '2022'
-		},
-		{
-			title: 'AWS Certified Solutions Architect – Associate',
-			issuer: 'Amazon Web Services',
-			url: 'https://aws.amazon.com/certification/certified-solutions-architect-associate/',
-			description:
-				'Validated knowledge of AWS cloud architecture and design principles for scalable solutions.',
-			technologies: ['AWS', 'Cloud Architecture', 'Solutions Design'],
-			date: '2024'
+				'Completed a course introducing the fundamentals of Artificial Intelligence including real-world applications and ethical considerations.',
+			technologies: ['Artificial Intelligence', 'Ethics', 'Machine Learning'],
+			date: '2025'
 		}
 	];
 </script>

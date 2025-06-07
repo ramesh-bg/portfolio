@@ -3,44 +3,45 @@
 
 	export let experiences = [
 		{
-			period: '2018 — 2019',
-			roles: ['Lead Engineer', 'Senior Engineer', 'Engineer'],
+			period: 'Jan 2021 — Present',
+			roles: ['Lead Software Engineer'],
 			company: {
-				name: 'Upstatement',
-				url: 'https://upstatement.com'
+				name: 'Open Financial Technologies',
+				url: 'https://open.money'
 			},
 			description:
-				'Build, style, and ship high-quality websites, design systems, mobile apps, and digital experiences for clients including Harvard Business School, Everytown for Gun Safety, Pratt Institute, and more. Lead engineering initiatives through collaboration and development of internal tools.',
+				'Led a team to develop fintech products including invoicing, billing, GST filing, integrations, payment links, and payouts. Rewrote the product using NX Monorepo architecture, building shareable libraries and migrating to latest versions. Developed lending products and static websites focused on localization and SEO. Mentored juniors and maintained repo hygiene with linting and hooks.',
 			technologies: [
-				'JavaScript',
+				'Angular 19',
 				'TypeScript',
-				'HTML & SCSS',
-				'React',
-				'Next.js',
-				'React Native',
-				'WordPress',
-				'Contentful',
-				'Node.js',
-				'PHP'
+				'TailwindCSS',
+				'Svelte',
+				'NX Monorepo',
+				'Angular Material',
+				'RxJS',
+				'd3.js',
+				'SCSS'
 			]
 		},
 		{
-			period: '2016 — 2017',
-			roles: ['Lead Engineer', 'Senior Engineer', 'Engineer'],
+			period: 'Oct 2017 — Jan 2021',
+			roles: ['Software Engineer'],
 			company: {
-				name: 'Upstatement',
-				url: 'https://upstatement.com'
+				name: 'Neutrinos',
+				url: 'https://www.neutrinos.com'
 			},
 			description:
-				'Built and delivered scalable web and mobile experiences, focusing on performance and accessibility. Led dev teams and mentored junior developers.',
+				'Developed products like OV2-Webforms for production plant data, Document Management System with RBAC, iOS iPad app for policy management, insurance sales application, and quality trace & track systems. Worked on Angular, Node-RED, MongoDB, and Agile processes.',
 			technologies: [
-				'JavaScript',
-				'TypeScript',
-				'HTML & SCSS',
-				'React',
-				'Next.js',
-				'Node.js',
-				'PHP'
+				'Angular',
+				'Angular Material',
+				'RxJS',
+				'Node-RED',
+				'MongoDB',
+				'Jasmine',
+				'Karma',
+				'NodeJS',
+				'TDD'
 			]
 		}
 	];
