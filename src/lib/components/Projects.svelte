@@ -89,7 +89,7 @@
 		<!-- Left: Title -->
 		<div class="lg:col-span-2">
 			<h2
-				class="text-2xl font-bold text-slate-100 underline decoration-blue-400 decoration-4 underline-offset-8"
+				class="text-2xl font-bold text-slate-100 underline decoration-purple-400 decoration-4 underline-offset-8"
 			>
 				PROJECTS
 			</h2>
@@ -99,7 +99,7 @@
 		<div class="space-y-12 lg:col-span-3">
 			{#each projects as proj (proj.name)}
 				<div
-					class="proj-card rounded-xl bg-slate-800/30 p-6 shadow-lg transition-shadow duration-300 hover:shadow-blue-500/30"
+					class="proj-card rounded-xl bg-slate-800/30 p-6 shadow-lg transition-shadow duration-300 hover:shadow-purple-500/30"
 				>
 					<!-- Project Name -->
 					<h3 class="mb-2 text-xl font-semibold text-slate-100">
@@ -107,7 +107,7 @@
 							href={proj.url}
 							target="_blank"
 							rel="noreferrer noopener"
-							class="transition-colors duration-200 hover:text-blue-300"
+							class="transition-colors duration-200 hover:text-purple-300"
 							aria-label={`Visit project ${proj.name}`}>{proj.name}</a
 						>
 					</h3>
@@ -116,7 +116,7 @@
 					<div class="mb-3 flex flex-wrap gap-2">
 						{#each proj.domains as domain}
 							<span
-								class="rounded-full border border-yellow-500/30 bg-yellow-600/10 px-3 py-1 text-xs font-semibold text-yellow-300"
+								class="rounded-full border border-orange-500/30 bg-orange-600/10 px-3 py-1 text-xs font-semibold text-orange-300"
 								>{domain}</span
 							>
 						{/each}
@@ -130,7 +130,7 @@
 						{#each proj.technologies as tech}
 							<li>
 								<span
-									class="rounded-full border border-blue-500/20 bg-blue-600/10 px-3 py-1 text-xs font-medium text-blue-300"
+									class="rounded-full border border-purple-500/20 bg-purple-600/10 px-3 py-1 text-xs font-medium text-purple-300"
 									>{tech}</span
 								>
 							</li>

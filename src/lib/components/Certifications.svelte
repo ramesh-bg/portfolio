@@ -19,7 +19,7 @@
 		<!-- Left: Title -->
 		<div class="lg:col-span-2">
 			<h2
-				class="text-2xl font-bold text-slate-100 underline decoration-purple-400 decoration-4 underline-offset-8"
+				class="text-2xl font-bold text-slate-100 underline decoration-blue-400 decoration-4 underline-offset-8"
 			>
 				CERTIFICATIONS
 			</h2>
@@ -29,7 +29,7 @@
 		<div class="space-y-12 lg:col-span-3">
 			{#each certifications as cert (cert.title)}
 				<article
-					class="cert-card rounded-xl bg-slate-800/30 p-6 shadow-lg transition-shadow duration-300 hover:shadow-purple-500/30"
+					class="cert-card rounded-xl bg-slate-800/30 p-6 shadow-lg transition-shadow duration-300 hover:shadow-blue-500/30"
 				>
 					<!-- Title and Issuer -->
 					<header class="mb-2 flex items-center justify-between">
@@ -37,12 +37,12 @@
 							href={cert.url}
 							target="_blank"
 							rel="noreferrer noopener"
-							class="text-xl font-semibold text-slate-100 transition-colors duration-200 hover:text-purple-300"
+							class="text-xl font-semibold text-slate-100 transition-colors duration-200 hover:text-blue-300"
 							aria-label={`Certification: ${cert.title} by ${cert.issuer} (opens in new tab)`}
 							>{cert.title}</a
 						>
 						<time
-							class="ml-4 rounded bg-purple-700/20 px-2 py-1 text-xs font-medium whitespace-nowrap text-purple-300"
+							class="ml-4 rounded bg-blue-700/20 px-2 py-1 text-xs font-medium whitespace-nowrap text-blue-300"
 							datetime={cert.date}>{cert.date}</time
 						>
 					</header>
@@ -53,7 +53,7 @@
 						{#each cert.technologies as tech}
 							<li>
 								<span
-									class="rounded-full border border-purple-500/20 bg-purple-600/10 px-3 py-1 text-xs font-medium text-purple-300"
+									class="rounded-full border border-blue-500/20 bg-blue-600/10 px-3 py-1 text-xs font-medium text-blue-300"
 									>{tech}</span
 								>
 							</li>

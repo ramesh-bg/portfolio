@@ -15,13 +15,12 @@
 		const options = {
 			root: null,
 			rootMargin: '0px',
-			threshold: 0.4
+			threshold: 0.2
 		};
 
 		const observer = new IntersectionObserver((entries) => {
 			entries.forEach((entry) => {
 				if (entry.isIntersecting) {
-					console.log('here', entry.target.getAttribute('id'));
 					// @ts-ignore
 					currentSection.set(entry.target.getAttribute('id'));
 				}
@@ -40,7 +39,7 @@
 		<Intro />
 		<Experience />
 		<Projects />
-		<Certifications />
 		<Academics />
+		<Certifications />
 	</main>
 </div>

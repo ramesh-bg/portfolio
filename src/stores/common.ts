@@ -6,8 +6,8 @@ export const currentSection = writable('intro');
 export const colorMap: any = {
 	intro: 'text-teal-400',
 	experience: 'text-teal-400',
-	projects: 'text-blue-500',
-	certifications: 'text-purple-400',
+	projects: 'text-purple-500',
+	certifications: 'text-blue-400',
 	academics: 'text-pink-400'
 };
 
