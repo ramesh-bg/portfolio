@@ -326,13 +326,8 @@
 					<span class="contact-text">rameshbg11@gmail.com</span>
 				</a>
 
-				<!-- NEW RESUME LINK -->
-				<a
-					href="/portfolio/resume-v2.pdf"
-					target="_blank"
-					rel="noopener noreferrer"
-					class="contact-link"
-				>
+				<!-- Resume Link -->
+				<a href="/resume-v2.pdf" target="_blank" rel="noopener noreferrer" class="contact-link">
 					<svg class="contact-icon" viewBox="0 0 24 24" fill="currentColor">
 						<path
 							d="M14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2M18,20H6V4H13V9H18V20Z"
@@ -378,6 +373,8 @@
 		align-items: center;
 		padding: 2rem;
 		position: relative;
+		/* ADD NAVBAR SPACE - Critical Fix */
+		padding-top: 6rem; /* Space for fixed navbar */
 	}
 
 	.intro-container {
@@ -642,8 +639,12 @@
 		line-height: 1.4;
 	}
 
-	/* Responsive Design */
+	/* ENHANCED RESPONSIVE DESIGN - Key Fixes */
 	@media (max-width: 1024px) {
+		.intro-section {
+			padding-top: 5rem; /* Reduce for tablet */
+		}
+
 		.intro-container {
 			grid-template-columns: 1fr;
 			gap: 2rem;
@@ -663,6 +664,33 @@
 	@media (max-width: 768px) {
 		.intro-section {
 			padding: 1rem;
+			padding-top: 5rem; /* CRITICAL: Space for mobile navbar */
+			min-height: calc(100vh - 80px); /* Account for navbar height */
+		}
+
+		.intro-container {
+			gap: 1.5rem;
+			padding-top: 1rem; /* Additional spacing on mobile */
+		}
+
+		.content-section {
+			gap: 1rem; /* Tighter spacing on mobile */
+		}
+
+		.name-title {
+			font-size: clamp(1.8rem, 6vw, 2.5rem); /* Smaller on mobile */
+			margin-bottom: 0.5rem;
+		}
+
+		.role-title {
+			font-size: clamp(1rem, 4vw, 1.3rem);
+			margin: 0.3rem 0 0 0;
+		}
+
+		.role-summary {
+			font-size: 0.9rem;
+			line-height: 1.5;
+			max-width: 100%; /* Full width on mobile */
 		}
 
 		.solar-system {
@@ -692,7 +720,56 @@
 
 		.contact-links {
 			justify-content: center;
-			flex-direction: column;
+			gap: 0.8rem; /* Smaller gaps on mobile */
+			margin-top: 1.5rem;
+		}
+	}
+
+	/* EXTRA SMALL SCREENS - Additional fixes */
+	@media (max-width: 480px) {
+		.intro-section {
+			padding: 0.5rem;
+			padding-top: 4.5rem; /* Adjust for smaller navbar */
+		}
+
+		.intro-container {
+			padding-top: 0.5rem;
+		}
+
+		.name-title {
+			font-size: clamp(1.6rem, 8vw, 2.2rem);
+		}
+
+		.role-title {
+			font-size: clamp(0.9rem, 5vw, 1.2rem);
+		}
+
+		.role-summary {
+			font-size: 0.85rem;
+		}
+
+		.solar-system {
+			width: 240px;
+			height: 240px;
+		}
+
+		.contact-links {
+			flex-direction: row; /* Keep horizontal on mobile */
+			flex-wrap: wrap;
+			gap: 0.6rem;
+		}
+	}
+
+	/* LANDSCAPE MOBILE - Prevent overlap */
+	@media (max-width: 768px) and (orientation: landscape) {
+		.intro-section {
+			padding-top: 4rem;
+			min-height: 100vh;
+		}
+
+		.intro-container {
+			grid-template-columns: 1fr 1fr; /* Side by side in landscape */
+			gap: 2rem;
 			align-items: center;
 		}
 	}
