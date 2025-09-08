@@ -2,20 +2,19 @@
 	import { onMount } from 'svelte';
 	import { gsap } from 'gsap';
 	import * as THREE from 'three';
+	import webglManager from './webglManager';
 
-	let experienceContainer: any;
-	let backgroundContainer: HTMLDivElement;
-	let experienceCards: HTMLElement[] = [];
-	let skillIcons: HTMLElement[] = [];
-	let timelineElements: HTMLElement[] = [];
+	let experienceContainer: HTMLElement | null = null;
+	let backgroundContainer: HTMLDivElement | null = null;
+	let experienceCards: (HTMLElement | null)[] = [];
+	let skillIcons: (HTMLElement | null)[] = [];
+	let domainCanvases: (HTMLCanvasElement | null)[] = [];
 
 	// Three.js variables for cosmic background
-	let bgRenderer: THREE.WebGLRenderer | undefined;
 	let bgScene: THREE.Scene;
 	let bgCamera: THREE.PerspectiveCamera;
 	let starField: THREE.Points;
 	let nebulaSphere: THREE.Mesh;
-	let bgAnimationId: number;
 
 	const experiences = [
 		{
@@ -28,6 +27,7 @@
 				'https://open-frontend-bucket.s3.amazonaws.com/logos/favicon/favicon-darkmode.svg',
 			description:
 				'Led a team to develop fintech products including invoicing, billing, GST filing, integrations, payment links, and payouts. Rewrote the product using NX Monorepo architecture, building shareable libraries and migrating to latest versions.',
+			domains: ['Accounting', 'Payment Gateway', 'GST Management', 'Lending'],
 			skills: [
 				{
 					name: 'Angular',
@@ -91,6 +91,7 @@
 				"data:image/svg+xml,%3Csvg width='38' height='24' viewBox='0 0 38 24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M28.145 0.0262295L19.0832 7.16066L9.54159 0.0262295H7.22283V23.9475H9.48829L18.5501 16.8131L28.0651 23.9475H30.3838V0.0262295H28.1184H28.145ZM28.0384 20.9574L11.4339 8.52459V11.4623L16.6578 15.3705L9.6482 20.8787V3.01639L26.2794 15.4492V12.5115L21.0555 8.60328L28.0651 3.09508V20.9574H28.0384ZM37.66 21.0623V24L32.2229 19.9344V16.9967L37.6866 21.0623H37.66ZM0 2.93771V0L5.43711 4.06557V7.00328L0 2.93771Z' fill='%233b82f6'/%3E%3C/svg%3E",
 			description:
 				'Developed products like OV2-Webforms for production plant data, Document Management System with RBAC, iOS iPad app for policy management, insurance sales application, and quality trace & track systems.',
+			domains: ['Insurance', 'Claims', 'Underwriting', 'Banking'],
 			skills: [
 				{
 					name: 'Angular',
@@ -135,25 +136,22 @@
 	];
 
 	function createCosmicBackground() {
-		const width = window.innerWidth;
-		const height = window.innerHeight;
+		if (!backgroundContainer) return;
+
+		// Check if background already exists
+		if (webglManager.isBackgroundAvailable()) {
+			console.log('🔄 Reusing existing background...');
+			return;
+		}
 
 		bgScene = new THREE.Scene();
-		bgCamera = new THREE.PerspectiveCamera(75, width / height, 0.1, 10000);
+		bgCamera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 10000);
 		bgCamera.position.set(0, 0, 0);
-
-		bgRenderer = new THREE.WebGLRenderer({
-			antialias: true,
-			alpha: true,
-			powerPreference: 'high-performance'
-		});
-		bgRenderer.setSize(width, height);
-		bgRenderer.setClearColor(0x000000, 1);
-		backgroundContainer.appendChild(bgRenderer.domElement);
 
 		createNebulaSphere();
 		createStarField();
-		animateBackground();
+
+		webglManager.initBackground(backgroundContainer, bgScene, bgCamera, animateBackground);
 	}
 
 	function createNebulaSphere() {
@@ -257,12 +255,90 @@
 			starField.rotation.y += 0.0002;
 			starField.rotation.x += 0.0001;
 		}
+	}
 
-		bgRenderer?.render(bgScene, bgCamera);
-		bgAnimationId = requestAnimationFrame(animateBackground);
+	function createFlowingBeacon(canvas: HTMLCanvasElement | null, color: string, index: number) {
+		if (!canvas) return;
+
+		const beaconId = `experience-beacon-${index}`;
+
+		const entry = webglManager.createBeacon(beaconId, canvas, 60, color, (entry) => {
+			animateFlowingBeacon(entry, color);
+		});
+
+		if (entry) {
+			setupFlowingBeacon(entry, color);
+		}
+	}
+
+	function setupFlowingBeacon(entry: any, color: string) {
+		// Create pulsing beacon
+		const geometry = new THREE.SphereGeometry(0.3, 8, 8);
+		const material = new THREE.MeshBasicMaterial({
+			color: color,
+			transparent: true,
+			opacity: 0.8
+		});
+
+		const beacon = new THREE.Mesh(geometry, material);
+		entry.scene.add(beacon);
+		entry.objects.beacon = beacon;
+
+		// Create flowing particles with reduced count
+		const particleCount = 8; // Reduced for better performance
+		const particleGeometry = new THREE.BufferGeometry();
+		const particlePositions = new Float32Array(particleCount * 3);
+
+		for (let i = 0; i < particleCount; i++) {
+			const angle = (i / particleCount) * Math.PI * 2;
+			const radius = 0.8 + Math.random() * 0.4;
+
+			particlePositions[i * 3] = Math.cos(angle) * radius;
+			particlePositions[i * 3 + 1] = Math.sin(angle) * radius;
+			particlePositions[i * 3 + 2] = (Math.random() - 0.5) * 0.2;
+		}
+
+		particleGeometry.setAttribute('position', new THREE.BufferAttribute(particlePositions, 3));
+
+		const particleMaterial = new THREE.PointsMaterial({
+			color: color,
+			size: 2,
+			transparent: true,
+			opacity: 0.6,
+			blending: THREE.AdditiveBlending,
+			sizeAttenuation: false
+		});
+
+		const particles = new THREE.Points(particleGeometry, particleMaterial);
+		entry.scene.add(particles);
+		entry.objects.particles = particles;
+	}
+
+	function animateFlowingBeacon(entry: any, color: string) {
+		const time = Date.now() * 0.001;
+
+		if (entry.objects.beacon) {
+			entry.objects.beacon.scale.setScalar(1 + Math.sin(time * 3) * 0.3);
+			entry.objects.beacon.material.opacity = 0.6 + Math.sin(time * 2) * 0.2;
+		}
+
+		if (entry.objects.particles) {
+			entry.objects.particles.rotation.z += 0.02;
+			const positions = entry.objects.particles.geometry.attributes.position.array;
+
+			for (let i = 0; i < 8; i++) {
+				// Match reduced particle count
+				const i3 = i * 3;
+				positions[i3 + 1] += Math.sin(time * 2 + i * 0.5) * 0.01;
+			}
+
+			entry.objects.particles.geometry.attributes.position.needsUpdate = true;
+		}
 	}
 
 	function handleScroll() {
+		if (!experienceContainer) return;
+
 		const containerRect = experienceContainer.getBoundingClientRect();
 		const isVisible = containerRect.top < window.innerHeight && containerRect.bottom > 0;
 
@@ -280,55 +356,99 @@
 		);
 
 		experienceCards.forEach((card, index) => {
+			if (card) {
+				gsap.fromTo(
+					card,
+					{ opacity: 0, x: -100, scale: 0.9 },
+					{ opacity: 1, x: 0, scale: 1, duration: 1, delay: 0.3 + index * 0.2, ease: 'power3.out' }
+				);
+			}
+
 			gsap.fromTo(
-				card,
-				{ opacity: 0, y: 80, scale: 0.9 },
-				{ opacity: 1, y: 0, scale: 1, duration: 1, delay: 0.3 + index * 0.2, ease: 'power3.out' }
+				`.domain-branch-${index}`,
+				{ scaleX: 0, opacity: 0 },
+				{
+					scaleX: 1,
+					opacity: 1,
+					duration: 0.8,
+					delay: 0.8 + index * 0.2,
+					ease: 'power2.out',
+					transformOrigin: 'left'
+				}
 			);
 		});
 
 		setTimeout(() => {
 			skillIcons.forEach((icon, index) => {
-				gsap.fromTo(
-					icon,
-					{ scale: 0, opacity: 0 },
-					{ scale: 1, opacity: 1, duration: 0.6, delay: index * 0.05, ease: 'back.out(1.7)' }
-				);
+				if (icon) {
+					gsap.fromTo(
+						icon,
+						{ scale: 0, opacity: 0 },
+						{ scale: 1, opacity: 1, duration: 0.6, delay: index * 0.05, ease: 'back.out(1.7)' }
+					);
+				}
 			});
-		}, 1000);
+
+			domainCanvases.forEach((canvas, index) => {
+				if (canvas) {
+					gsap.fromTo(
+						canvas,
+						{ scale: 0, opacity: 0 },
+						{ scale: 1, opacity: 1, duration: 0.6, delay: index * 0.1, ease: 'back.out(1.7)' }
+					);
+				}
+			});
+		}, 1200);
 	}
 
 	function handleResize() {
-		if (bgRenderer && bgCamera) {
-			const width = window.innerWidth;
-			const height = window.innerHeight;
-
-			bgCamera.aspect = width / height;
-			bgCamera.updateProjectionMatrix();
-			bgRenderer.setSize(width, height);
-		}
+		webglManager.resizeBackground(bgCamera);
 	}
 
 	onMount(() => {
+		console.log('🚀 Experience component mounting...');
+
+		// Register component and get allocated beacon slots
+		const totalDomains = experiences.reduce((sum, exp) => sum + exp.domains.length, 0);
+		const allocatedSlots = webglManager.registerComponent('experience', totalDomains);
+
 		createCosmicBackground();
+
+		// Initialize domain beacons with allocated slots only
+		let beaconIndex = 0;
+		for (const canvas of domainCanvases) {
+			if (canvas && beaconIndex < allocatedSlots) {
+				const expIndex = Math.floor(beaconIndex / 4);
+				const color = experiences[expIndex]?.accentColor || '#00f5ff';
+				createFlowingBeacon(canvas, color, beaconIndex);
+				beaconIndex++;
+			}
+		}
 
 		window.addEventListener('scroll', handleScroll);
 		window.addEventListener('resize', handleResize);
 		handleScroll();
 
+		// Log stats
+		console.log('📊 Experience WebGL Stats:', webglManager.getStats());
+
 		return () => {
+			console.log('🧹 Experience component unmounting...');
 			window.removeEventListener('scroll', handleScroll);
 			window.removeEventListener('resize', handleResize);
-			if (bgAnimationId) {
-				cancelAnimationFrame(bgAnimationId);
-			}
-			bgRenderer?.dispose();
+
+			// Clean up component beacons
+			webglManager.disposeComponentBeacons('experience');
+
+			console.log('📊 Final WebGL Stats:', webglManager.getStats());
 		};
 	});
 </script>
 
 <!-- Cosmic Background -->
-<div bind:this={backgroundContainer} class="cosmic-background"></div>
+{#if backgroundContainer || webglManager.isBackgroundAvailable()}
+	<div bind:this={backgroundContainer} class="cosmic-background"></div>
+{/if}
 
 <section bind:this={experienceContainer} class="experience-section">
 	<div class="container">
@@ -338,9 +458,10 @@
 			{#each experiences as exp, index}
 				<article
 					bind:this={experienceCards[index]}
-					class="experience-item"
+					class="experience-item left-aligned"
 					style="--accent-color: {exp.accentColor}"
 				>
+					<!-- Timeline -->
 					<div class="timeline-side">
 						<div class="timeline-dot {exp.current ? 'active' : ''}">
 							<div class="dot-pulse"></div>
@@ -350,6 +471,7 @@
 						{/if}
 					</div>
 
+					<!-- Main Content Card -->
 					<div class="content-card">
 						<div class="card-accent-border"></div>
 
@@ -391,6 +513,9 @@
 									class="skill-icon-wrapper"
 									on:click={() => window.open(skill.link, '_blank')}
 									title={skill.description}
+									role="button"
+									tabindex="0"
+									on:keydown={(e) => e.key === 'Enter' && window.open(skill.link, '_blank')}
 								>
 									<img src={skill.icon} alt={skill.name} class="skill-icon" />
 									<div class="skill-tooltip">
@@ -400,6 +525,35 @@
 								</div>
 							{/each}
 						</div>
+					</div>
+
+					<!-- Domain Branches -->
+					<div class="domain-branches">
+						{#each exp.domains as domain, domainIndex}
+							<div
+								class="domain-branch domain-branch-{index}"
+								style="--delay: {domainIndex * 0.2}s"
+							>
+								<div
+									class="branch-line"
+									style="background: linear-gradient(90deg, var(--accent-color), transparent);"
+								></div>
+								<div class="domain-beacon">
+									<canvas
+										bind:this={domainCanvases[index * 4 + domainIndex]}
+										class="beacon-canvas"
+										width="60"
+										height="60"
+									></canvas>
+									<div
+										class="domain-label"
+										style="color: var(--accent-color); border-color: var(--accent-color);"
+									>
+										{domain}
+									</div>
+								</div>
+							</div>
+						{/each}
 					</div>
 				</article>
 			{/each}
@@ -427,7 +581,7 @@
 	}
 
 	.container {
-		max-width: 900px;
+		max-width: 1400px;
 		margin: 0 auto;
 		width: 100%;
 	}
@@ -446,12 +600,22 @@
 
 	.experience-list {
 		position: relative;
+		display: flex;
+		flex-direction: column;
+		align-items: flex-start;
+		gap: 4rem;
 	}
 
 	.experience-item {
 		display: flex;
-		margin-bottom: 3rem;
+		align-items: flex-start;
 		position: relative;
+		width: 100%;
+		max-width: 1200px;
+	}
+
+	.experience-item.left-aligned {
+		justify-content: flex-start;
 	}
 
 	.timeline-side {
@@ -516,7 +680,7 @@
 
 	.timeline-line {
 		width: 3px;
-		height: 100px;
+		height: 120px;
 		background: linear-gradient(
 			to bottom,
 			var(--accent-color) 0%,
@@ -529,7 +693,7 @@
 	}
 
 	.content-card {
-		flex: 1;
+		flex: 0 0 600px;
 		background: rgba(15, 23, 42, 0.4);
 		backdrop-filter: blur(20px);
 		border: 1px solid rgba(255, 255, 255, 0.1);
@@ -593,6 +757,7 @@
 		display: flex;
 		align-items: center;
 		gap: 0.75rem;
+		flex-wrap: wrap;
 	}
 
 	.company-logo {
@@ -603,6 +768,7 @@
 		background: rgba(255, 255, 255, 0.05);
 		padding: 4px;
 		filter: brightness(1.1);
+		flex-shrink: 0;
 	}
 
 	.company {
@@ -614,6 +780,7 @@
 		align-items: center;
 		gap: 0.4rem;
 		transition: all 0.3s ease;
+		flex-wrap: wrap;
 	}
 
 	.company:hover {
@@ -625,6 +792,7 @@
 		height: 14px;
 		opacity: 0.7;
 		transition: transform 0.3s ease;
+		flex-shrink: 0;
 	}
 
 	.company:hover .external-icon {
@@ -717,7 +885,110 @@
 		transform: translateX(-50%) translateY(-5px);
 	}
 
+	/* Domain Branches */
+	.domain-branches {
+		flex: 1;
+		margin-left: 2rem;
+		display: flex;
+		flex-direction: column;
+		gap: 1.2rem;
+		padding-top: 2rem;
+		min-width: 300px;
+	}
+
+	.domain-branch {
+		display: flex;
+		align-items: center;
+		animation-delay: var(--delay);
+	}
+
+	.branch-line {
+		width: 120px;
+		height: 2px;
+		border-radius: 1px;
+		box-shadow: 0 0 8px var(--accent-color);
+		margin-right: 1rem;
+		flex-shrink: 0;
+	}
+
+	.domain-beacon {
+		display: flex;
+		align-items: center;
+		gap: 1rem;
+		flex-wrap: wrap;
+	}
+
+	.beacon-canvas {
+		width: 60px !important;
+		height: 60px !important;
+		border-radius: 50%;
+		filter: drop-shadow(0 0 15px var(--accent-color));
+		flex-shrink: 0;
+	}
+
+	.domain-label {
+		font-size: 0.9rem;
+		font-weight: 600;
+		text-transform: uppercase;
+		letter-spacing: 0.5px;
+		padding: 0.5rem 1rem;
+		border: 1px solid;
+		border-radius: 15px;
+		background: rgba(0, 0, 0, 0.3);
+		backdrop-filter: blur(10px);
+		white-space: nowrap;
+		transition: all 0.3s ease;
+		flex-shrink: 0;
+		text-align: center;
+		min-width: 120px;
+	}
+
+	.domain-label:hover {
+		transform: scale(1.05);
+		box-shadow: 0 0 20px var(--accent-color);
+	}
+
 	/* Responsive Design */
+	@media (max-width: 1400px) {
+		.container {
+			max-width: 1200px;
+		}
+
+		.content-card {
+			flex-basis: 550px;
+		}
+
+		.domain-branches {
+			min-width: 280px;
+		}
+	}
+
+	@media (max-width: 1200px) {
+		.experience-item {
+			flex-direction: column;
+			align-items: center;
+			gap: 2rem;
+		}
+
+		.content-card {
+			flex: none;
+			width: 100%;
+			max-width: 800px;
+		}
+
+		.domain-branches {
+			margin-left: 0;
+			margin-top: 0;
+			align-items: center;
+			min-width: auto;
+			width: 100%;
+		}
+
+		.branch-line {
+			width: 100px;
+		}
+	}
+
 	@media (max-width: 768px) {
 		.experience-section {
 			padding: 3rem 1rem;
@@ -750,43 +1021,23 @@
 			height: 36px;
 		}
 
-		.company-info {
-			flex-wrap: wrap;
-		}
-	}
-
-	@media (max-width: 480px) {
-		.experience-item {
-			flex-direction: column;
-			margin-bottom: 2rem;
+		.domain-branches {
+			gap: 0.8rem;
 		}
 
-		.timeline-side {
-			flex-direction: row;
-			width: auto;
-			margin-right: 0;
-			margin-bottom: 1rem;
-			align-items: center;
-		}
-
-		.timeline-line {
+		.branch-line {
 			width: 60px;
-			height: 3px;
-			margin-top: 0;
-			margin-left: 1rem;
 		}
 
-		.content-card {
-			padding: 1.25rem;
+		.beacon-canvas {
+			width: 50px !important;
+			height: 50px !important;
 		}
 
-		.skills-grid {
-			gap: 0.5rem;
-		}
-
-		.skill-tooltip {
-			max-width: 200px;
-			font-size: 0.75rem;
+		.domain-label {
+			font-size: 0.8rem;
+			padding: 0.4rem 0.8rem;
+			min-width: 90px;
 		}
 	}
 </style>

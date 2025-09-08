@@ -82,6 +82,19 @@
 		});
 	}
 
+	// Smooth scroll to section
+	function scrollToSection(sectionId) {
+		const section = document.querySelector(sectionId);
+		if (section) {
+			section.scrollIntoView({
+				behavior: 'smooth',
+				block: 'start'
+			});
+		}
+		// Close mobile menu after clicking
+		closeMobileMenu();
+	}
+
 	// Mobile menu toggle
 	function toggleMobileMenu() {
 		isMobileMenuOpen = !isMobileMenuOpen;
@@ -207,61 +220,53 @@
 				class="logo"
 				on:mouseenter={handleLogoHover}
 				on:mouseleave={handleLogoLeave}
+				on:click={() => scrollToSection('#intro')}
 			>
-				<span class="logo-text">Ramesh BG</span>
+				<span class="logo-text">RG</span>
 				<div class="logo-orbit"></div>
 			</div>
 		</div>
 
 		<!-- Desktop Navigation Links -->
 		<div class="nav-links">
-			<a
-				href="/"
+			<!-- svelte-ignore a11y_no_static_element_interactions -->
+			<div
 				bind:this={navItems[0]}
 				class="nav-item"
 				on:mouseenter={handleNavHover}
 				on:mouseleave={handleNavLeave}
-			>
-				<span class="nav-text">Home</span>
-				<div class="nav-underline"></div>
-				<div class="nav-glow"></div>
-			</a>
-
-			<a
-				href="/about"
-				bind:this={navItems[1]}
-				class="nav-item"
-				on:mouseenter={handleNavHover}
-				on:mouseleave={handleNavLeave}
-			>
-				<span class="nav-text">About</span>
-				<div class="nav-underline"></div>
-				<div class="nav-glow"></div>
-			</a>
-
-			<a
-				href="/experience"
-				bind:this={navItems[2]}
-				class="nav-item"
-				on:mouseenter={handleNavHover}
-				on:mouseleave={handleNavLeave}
+				on:click={() => scrollToSection('#experience')}
 			>
 				<span class="nav-text">Experience</span>
 				<div class="nav-underline"></div>
 				<div class="nav-glow"></div>
-			</a>
+			</div>
 
-			<a
-				href="/projects"
-				bind:this={navItems[3]}
+			<!-- svelte-ignore a11y_no_static_element_interactions -->
+			<div
+				bind:this={navItems[1]}
 				class="nav-item"
 				on:mouseenter={handleNavHover}
 				on:mouseleave={handleNavLeave}
+				on:click={() => scrollToSection('#projects')}
 			>
 				<span class="nav-text">Projects</span>
 				<div class="nav-underline"></div>
 				<div class="nav-glow"></div>
-			</a>
+			</div>
+
+			<!-- svelte-ignore a11y_no_static_element_interactions -->
+			<div
+				bind:this={navItems[2]}
+				class="nav-item"
+				on:mouseenter={handleNavHover}
+				on:mouseleave={handleNavLeave}
+				on:click={() => scrollToSection('#academics')}
+			>
+				<span class="nav-text">Academics</span>
+				<div class="nav-underline"></div>
+				<div class="nav-glow"></div>
+			</div>
 		</div>
 
 		<!-- Mobile Menu Button -->
@@ -276,18 +281,18 @@
 
 	<!-- Mobile Menu -->
 	<div bind:this={mobileMenu} class="mobile-menu-items" class:open={isMobileMenuOpen}>
-		<a href="/" class="mobile-nav-item" on:click={closeMobileMenu}>
-			<span>Home</span>
-		</a>
-		<a href="/about" class="mobile-nav-item" on:click={closeMobileMenu}>
-			<span>About</span>
-		</a>
-		<a href="/experience" class="mobile-nav-item" on:click={closeMobileMenu}>
+		<!-- svelte-ignore a11y_no_static_element_interactions -->
+		<div class="mobile-nav-item" on:click={() => scrollToSection('#experience')}>
 			<span>Experience</span>
-		</a>
-		<a href="/projects" class="mobile-nav-item" on:click={closeMobileMenu}>
+		</div>
+		<!-- svelte-ignore a11y_no_static_element_interactions -->
+		<div class="mobile-nav-item" on:click={() => scrollToSection('#projects')}>
 			<span>Projects</span>
-		</a>
+		</div>
+		<!-- svelte-ignore a11y_no_static_element_interactions -->
+		<div class="mobile-nav-item" on:click={() => scrollToSection('#academics')}>
+			<span>Academics</span>
+		</div>
 	</div>
 
 	<!-- Navbar glow effect -->
@@ -433,6 +438,7 @@
 		letter-spacing: 1px;
 		font-size: 0.9rem;
 		border-radius: 6px;
+		cursor: pointer;
 	}
 
 	.nav-text {
@@ -549,6 +555,7 @@
 		font-size: 0.9rem;
 		border-bottom: 1px solid rgba(59, 130, 246, 0.1);
 		transition: all 0.3s ease;
+		cursor: pointer;
 	}
 
 	.mobile-nav-item:last-child {

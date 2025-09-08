@@ -325,6 +325,21 @@
 					</svg>
 					<span class="contact-text">rameshbg11@gmail.com</span>
 				</a>
+
+				<!-- NEW RESUME LINK -->
+				<a
+					href="/portfolio/resume-v2.pdf"
+					target="_blank"
+					rel="noopener noreferrer"
+					class="contact-link"
+				>
+					<svg class="contact-icon" viewBox="0 0 24 24" fill="currentColor">
+						<path
+							d="M14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2M18,20H6V4H13V9H18V20Z"
+						/>
+					</svg>
+					<span class="contact-text">Resume</span>
+				</a>
 			</div>
 		</div>
 

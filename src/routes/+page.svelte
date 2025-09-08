@@ -1,7 +1,9 @@
 <script lang="ts">
+	import Academics from '$lib/components/Academics.svelte';
 	import Experience from '$lib/components/Experience.svelte';
 	import Intro from '$lib/components/Intro.svelte';
 	import Navbar from '$lib/components/Navbar.svelte';
+	import Projects from '$lib/components/Projects.svelte';
 	import { onMount, onDestroy } from 'svelte';
 	import * as THREE from 'three';
 
@@ -389,8 +391,18 @@
 <!-- Navbar (separate layer with pointer events) -->
 <div class="navbar-layer">
 	<Navbar />
-	<Intro />
-	<Experience />
+	<div id="intro">
+		<Intro />
+	</div>
+	<div id="experience">
+		<Experience />
+	</div>
+	<div id="projects">
+		<Projects />
+	</div>
+	<div id="academics">
+		<Academics />
+	</div>
 </div>
 
 <slot />
