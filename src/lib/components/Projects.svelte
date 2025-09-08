@@ -660,7 +660,7 @@
 		transform: translateY(-12px) scale(1.02);
 		box-shadow:
 			0 25px 80px rgba(0, 0, 0, 0.0001),
-			0 0 40px var(--accent-color),
+			0 0 16px var(--accent-color),
 			inset 0 1px 0 rgba(255, 255, 255, 0.1) !important;
 		border-color: rgba(255, 255, 255, 0.2);
 	}
